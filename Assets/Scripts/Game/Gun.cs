@@ -200,11 +200,23 @@ public class Gun : MonoBehaviour
          *  - Number / spread of shotgun bullets : shotgunBullets, shotgunSpread
          * Implement both single shot and shotgun (swap by pressing <SPACE> by default)
          */
-        
-        SpawnBullet(
-            new Vector3{ x = 0.0f, y = 0.0f, z = 0.0f }, 
-            Quaternion.Euler(0.0f, 0.0f, 0.0f)
-        );
+
+        if (shotgun)
+        {
+            // Shotgun mode: Spawn multiple bullets in a spread.
+            for (int i = 0; i < shotgunBullets; i++)
+            {
+                // Randomize the spread angle within the shotgunSpread range.
+                float spreadAngle = UnityEngine.Random.Range(-shotgunSpread / 2, shotgunSpread / 2);
+                Quaternion bulletRotation = director.rotation * Quaternion.Euler(0.0f, 0.0f, spreadAngle);
+                SpawnBullet(director.position + director.up * (spawnOffset + 0.5f), bulletRotation);
+            }
+        }
+        else
+        {
+            // Single-shot mode: Spawn a single bullet.
+            SpawnBullet(director.position + director.up * (spawnOffset + 0.5f), director.rotation);
+        }
     }
 
     /// <summary>

@@ -108,7 +108,7 @@ public class Settings : MonoBehaviour
     /// </summary>
     public static Settings Instance
     { get { return sInstance; } }
-    
+
     /*
      * Task #3: Implement the local multiplayer
      * Useful functions and variables:
@@ -122,7 +122,27 @@ public class Settings : MonoBehaviour
      *   can call through to the AddPlayer and RemovePlayer respectively.
      *   Do not forget to set the Joining Behavior and the Player Prefab!
      */
-    
+    /// <summary>
+    /// Called when a new player joins the game.
+    /// </summary>
+    /// <param name="playerInput">The PlayerInput component of the joined player.</param>
+    public void OnPlayerJoined(PlayerInput playerInput)
+    {
+        AddPlayer(playerInput.gameObject);
+        Debug.Log($"Player joined: {playerInput.gameObject.name}, Total players: {players.Count}");
+    }
+
+    /// <summary>
+    /// Called when a player leaves the game.
+    /// </summary>
+    /// <param name="playerInput">The PlayerInput component of the player who left.</param>
+    public void OnPlayerLeft(PlayerInput playerInput)
+    {
+        RemovePlayer(playerInput.gameObject);
+        Debug.Log($"Player left: {playerInput.gameObject.name}, Remaining players: {players.Count}");
+    }
+
+
     /// <summary>
     /// Called when the script instance is first loaded.
     /// </summary>
